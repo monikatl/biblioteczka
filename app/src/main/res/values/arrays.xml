@@ -1,0 +1,8 @@
+<resources>
+    <string-array name="spinner_items">
+        <item>Element 1</item>
+        <item>Element 2</item>
+        <item>Element 3</item>
+        <!-- Dodaj więcej elementów według potrzeb -->
+    </string-array>
+</resources>

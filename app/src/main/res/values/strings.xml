@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Biblioteczka</string>
+    <string name="title_home">Księgozbór</string>
+    <string name="title_dashboard">Wypożyczający</string>
+    <string name="title_notifications">Historia wypożyczeń</string>
+    <string name="title_history">Historia</string>
+    <string name="title_person">Osoby</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title">Tytuł</string>
+    <string name="new_book_label">Dodaj nową pozycję do Biblioteczki</string>
+    <string name="edit_book_label">Edytuj pozycję Biblioteczki</string>
+</resources>
