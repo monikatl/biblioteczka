@@ -1,4 +1,4 @@
-package com.example.biblioteczka.ui.home
+package com.example.biblioteczka.ui.home.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.DialogAddBookBinding
 import com.example.biblioteczka.model.Book
+import com.example.biblioteczka.ui.home.HomeViewModel
 
 class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = null) : DialogFragment() {
 

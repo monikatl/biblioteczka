@@ -2,7 +2,11 @@ package com.example.biblioteczka
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -21,9 +25,14 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.biblioteczka.databinding.ActivityMainBinding
 import com.example.biblioteczka.model.Person
+import com.example.biblioteczka.ui.home.SendDialogFragment
+import com.example.biblioteczka.ui.home.fragments.HomeFragment
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
 
 class MainActivity: AppCompatActivity() {
 
@@ -147,8 +156,10 @@ class MainActivity: AppCompatActivity() {
                 val contactId = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
                 val contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
                 val contactPhoneNumber = getContactPhoneNumber(contentResolver, contactId)
+                val photo = getContactPhoto(contentResolver,contactId)
 
-                val contact =Person(contactName, contactPhoneNumber?:"")
+                val contact =Person(contactName, contactPhoneNumber?:"", photo)
+                println("Photo " + photo.toString())
                 contacts.add(contact)
             }
         }
@@ -181,6 +192,34 @@ class MainActivity: AppCompatActivity() {
         return phoneNumber
     }
 
+    @SuppressLint("Range")
+    private fun getContactPhoto(contentResolver: ContentResolver, contactId: String): Bitmap? {
+        val photoUri: Uri? = ContentUris.withAppendedId(
+            ContactsContract.Contacts.CONTENT_URI,
+            contactId.toLong()
+        )
+
+        val inputStream = ContactsContract.Contacts.openContactPhotoInputStream(
+            contentResolver,
+            photoUri!!
+        )
+
+        return inputStream?.use { // Use Kotlin's use function to automatically close the stream
+            uriToBitmap(photoUri)
+        }
+    }
+
+    private fun uriToBitmap(uri: Uri): Bitmap? {
+        return try {
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)
+            }
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
@@ -189,8 +228,8 @@ class MainActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_send -> {
-                // Obsługa kliknięcia na ikonę wyszukiwania
-                // Tutaj możesz otworzyć fragment wyszukiwania lub wykonać inne czynności
+                val fragment = supportFragmentManager.findFragmentById(R.id.navigation_home) as? HomeFragment
+                fragment?.showSendDialog()
                 return true
             }
             R.id.action_backup -> {

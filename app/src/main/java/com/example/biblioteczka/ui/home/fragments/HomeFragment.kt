@@ -1,4 +1,4 @@
-package com.example.biblioteczka.ui.home
+package com.example.biblioteczka.ui.home.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -23,16 +23,22 @@ import com.example.biblioteczka.MainActivity
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.FragmentHomeBinding
 import com.example.biblioteczka.model.Book
+import com.example.biblioteczka.ui.home.BookRecyclerViewClickListener
+import com.example.biblioteczka.ui.home.HomeViewModel
+import com.example.biblioteczka.ui.home.HomeViewModelFactory
+import com.example.biblioteczka.ui.home.SendDialogFragment
+import com.example.biblioteczka.ui.home.adapters.BookListAdapter
 import java.time.format.DateTimeFormatter
 
 
 class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private val homeViewModel:HomeViewModel by viewModels {
+    private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory((activity?.application as BookcaseApplication).bookRepository,
             (activity?.application as BookcaseApplication).rentalRepository,
-        (activity?.application as BookcaseApplication).personRepository)}
+        (activity?.application as BookcaseApplication).personRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -204,5 +210,9 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
         val url = "https://$uriText"
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
+    }
+
+    fun showSendDialog() {
+        SendDialogFragment(homeViewModel).show(childFragmentManager, SendDialogFragment.TAG)
     }
 }

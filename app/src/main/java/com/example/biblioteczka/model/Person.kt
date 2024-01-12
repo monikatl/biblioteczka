@@ -1,5 +1,6 @@
 package com.example.biblioteczka.model
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,6 +16,7 @@ import kotlinx.parcelize.Parcelize
 data class Person(
     val name: String,
     val number: String,
+    val photo: Bitmap?,
     @PrimaryKey(autoGenerate = true)
     val person_id: Long = 0
 ): Parcelable {

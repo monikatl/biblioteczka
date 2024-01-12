@@ -2,7 +2,6 @@
     <!-- Base application theme. -->
     <style name="Theme.Biblioteczka" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 
-        <item name="fontFamily">@fonts/antic</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">#816e90</item>
         <item name="colorPrimaryVariant">#43394b</item>

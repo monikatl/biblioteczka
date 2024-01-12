@@ -14,12 +14,13 @@ import com.example.biblioteczka.data.rental.RentalDao
 import com.example.biblioteczka.model.Book
 import com.example.biblioteczka.model.Person
 import com.example.biblioteczka.model.Rental
+import com.example.biblioteczka.ui.dashboard.BitmapConverters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Book::class, Rental::class, Person::class], version =26, exportSchema = false)
-@TypeConverters(Converters::class, ListConverters::class)
+@Database(entities = [Book::class, Rental::class, Person::class], version =28, exportSchema = false)
+@TypeConverters(Converters::class, ListConverters::class, BitmapConverters::class)
 abstract class BookRoomDatabase : RoomDatabase() {
 
     abstract fun bookDao(): BookDao

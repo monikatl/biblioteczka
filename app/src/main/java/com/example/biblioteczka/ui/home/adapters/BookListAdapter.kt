@@ -1,11 +1,10 @@
-package com.example.biblioteczka.ui.home
+package com.example.biblioteczka.ui.home.adapters
 
 
 import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +12,7 @@ import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.BookItemBinding
 import com.example.biblioteczka.model.Book
 import com.example.biblioteczka.model.Rental
+import com.example.biblioteczka.ui.home.BookRecyclerViewClickListener
 import java.time.LocalDateTime
 
 class BookListAdapter : RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
@@ -98,8 +98,8 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
         }
         fun resolveOverloading(rental: Rental): Boolean {
             val dateNow = LocalDateTime.now()
-//            return dateNow!!.isAfter(rental.plan_return_date!!)
-            return rental.plan_return_date!!.isAfter(dateNow!!)
+            return dateNow!!.isAfter(rental.plan_return_date!!)
+           // return rental.plan_return_date!!.isAfter(dateNow!!)
         }
 
     }
