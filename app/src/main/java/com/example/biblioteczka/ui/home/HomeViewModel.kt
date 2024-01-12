@@ -37,32 +37,31 @@ class HomeViewModel(private val bookRepository: BookRepository,
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun hireBook() {
+    fun hireBook(): Rental? {
+        var newRental: Rental? = null
         viewModelScope.launch {
             val book = currentBook!!
             val person = selectedPerson!!
-            val newRental = Rental(book, person)
-            newRental.hire()
-            val id = rentalRepository.addRental(newRental)
+            newRental = Rental(book, person)
+            newRental?.hire()
+            book.rental = newRental
+            val id = rentalRepository.addRental(newRental!!)
             book.hire(id)
             bookRepository.editBook(book)
         }
+        return newRental
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun regiveBook() {
         val book = currentBook!!
         val rental = allRentals.value?.first {
-            println(it.rental_id)
-            println(book.currentRental)
             it.rental_id == book.currentRental
         }
         book.regive()
         viewModelScope.launch {
-            println("RETURN_DATE $rental")
             rental?.let {
                 rental.regive()
-                println("RETURN_DATE ${rental.return_date}")
                 rentalRepository.editRental(rental)
             }
             bookRepository.editBook(book)
@@ -73,6 +72,14 @@ class HomeViewModel(private val bookRepository: BookRepository,
         currentBook!!.accept()
         viewModelScope.launch {
             bookRepository.editBook(currentBook!!)
+        }
+    }
+
+   fun resolveRentals() {
+        for (book in allBooks.value!!) {
+            if(book.currentRental != null) {
+               book.rental =  allRentals.value?.find { book.currentRental == it.rental_id }
+            }
         }
     }
 }

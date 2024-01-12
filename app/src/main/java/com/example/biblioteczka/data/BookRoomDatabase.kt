@@ -71,10 +71,17 @@ abstract class BookRoomDatabase : RoomDatabase() {
             // Not needed if you only populate on creation.
             bookDao.deleteAll()
 
-            var book = Book("34x4", "Wiedźmin", "A. Sapkowski", 2008, "Bla bla bla", "xyz@fty.pl")
+            var book = Book("34x4", "Wiedźmin", "A. Sapkowski", 2008, "Przygody Geralta z Rivii", "www.taniaksiazka.pl/seria/wiedzmin")
             bookDao.insert(book)
-            book = Book("34x5", "Wiedźmin", "A. Sapkowski", 2008, "Bla bla bla", "xyz@fty.pl")
+            book = Book("31x5", "J.S. Bach: Complete Organ Works", "Breitkopf & Hartel", 2008, "Trzeba grać", "www.alenuty.pl/pl/p/Jan-Sebastian-Bach-Complete-Organ-Works-in-10-Volumes-Urtext-nowe-kompletne-wydanie-utworow-organowych-Bacha-nuty-na-organy/9546?gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOWSqSS4JfHzYUW59UxeW7Bg56uVTauBLXq775vM88ZL_8S11xBboSBoCcuAQAvD_BwE")
             bookDao.insert(book)
+            book = Book("34x5", "Potop", "Henryk Sienkiewicz", 1886, "Lektura szkolna ale nie tylko", "www.taniaksiazka.pl/potop-lektura-z-opracowaniem-henryk-sienkiewicz-p-3502.html")
+            bookDao.insert(book)
+            book = Book("34x6", "Wprowadzenie do algorytmów", "Thomas H. Cormen", 2018, "Trzeba przeczytać", "www.empik.com/wprowadzenie-do-algorytmow-cormen-thomas-h-leiserson-charles-e-rivest-ronald-stein-clifford,p1049607421,ksiazka-p?mpShopId=6482&cq_src=google_ads&cq_cmp=20574774934&cq_term=&cq_plac=&cq_net=x&cq_plt=gp&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOTvvnHN1GxknujPExGxMWiyxybPycfb2eHPv8bp7BDJ9niavWrvN4xoC6CYQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("34x7", "Johann Sebastian Bach", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+
         }
     }
 }

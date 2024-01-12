@@ -51,31 +51,11 @@ class MainActivity: AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
 
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.READ_CONTACTS),
-                CONTACTS_PERMISSION_CODE
-            )
-        }
+        smsPermissions()
+        readContactsPermission()
+        callPermissions()
 
-        if (ContextCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.SEND_SMS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-
-        } else {
-            // Jeśli nie masz uprawnienia, poproś użytkownika o zgodę
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.SEND_SMS),
-                MY_PERMISSIONS_REQUEST_SEND_SMS
-            )
-        }
 
         var list: List<Person>? = null
         runBlocking {
@@ -85,25 +65,43 @@ class MainActivity: AppCompatActivity() {
             loadContacts()
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            MY_PERMISSIONS_REQUEST_SEND_SMS -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    private fun smsPermissions() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.SEND_SMS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
 
-                } else {
-                    // Użytkownik odmówił zgody, możesz poinformować go o konieczności zgody
-                    Toast.makeText(
-                        this,
-                        "Nie będziesz otrzymywał wiadomości sms :( ",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.SEND_SMS),
+                MY_PERMISSIONS_REQUEST_SEND_SMS
+            )
+        }
+    }
+
+    private fun callPermissions() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.CALL_PHONE),
+                CONTACTS_PERMISSION_CODE
+            )
+        }
+    }
+
+    private fun readContactsPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_CONTACTS),
+                CONTACTS_PERMISSION_CODE
+            )
         }
     }
 
@@ -207,4 +205,6 @@ class MainActivity: AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
+
+
 }

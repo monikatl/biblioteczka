@@ -15,15 +15,10 @@ import kotlinx.parcelize.Parcelize
 data class Person(
     val name: String,
     val number: String,
-//    @ColumnInfo(name = "person_rentals")
-//    val rentals: MutableList<Rental> = mutableListOf(),
     @PrimaryKey(autoGenerate = true)
     val person_id: Long = 0
 ): Parcelable {
 
-//    fun addNewRental(rental: Rental) {
-//        rentals.add(rental)
-//    }
     override fun toString(): String {
         return "$name"
     }

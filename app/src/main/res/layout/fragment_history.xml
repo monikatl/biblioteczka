@@ -11,7 +11,9 @@
             android:id="@+id/spinners"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:orientation="horizontal"
+            android:background="#f2f0f3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -20,15 +22,15 @@
                 android:id="@+id/filter"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableStart="@drawable/baseline_filter_list_24"/>
+                android:textSize="16sp"
+                android:layout_weight="1" />
 
             <Spinner
                 android:id="@+id/sort"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableStart="@drawable/baseline_sort_24"/>
+                android:textSize="16sp"
+                android:layout_weight="1" />
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -37,6 +39,7 @@
             android:id="@+id/historyRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

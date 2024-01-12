@@ -11,6 +11,7 @@ import com.example.biblioteczka.databinding.RentalItemBinding
 import com.example.biblioteczka.model.Book
 import com.example.biblioteczka.model.Person
 import com.example.biblioteczka.model.Rental
+import java.time.format.DateTimeFormatter
 
 class RentalListAdapter(private var items: List<Rental>) : RecyclerView.Adapter<RentalListAdapter.ViewHolder>() {
 
@@ -40,6 +41,17 @@ class RentalListAdapter(private var items: List<Rental>) : RecyclerView.Adapter<
     class ViewHolder(private val binding: RentalItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Rental) {
             binding.rental = item
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+            val takeDate = item.take_date?.format(formatter) ?: "-"
+            val planReturnDate = item.plan_return_date?.format(formatter) ?: "-"
+            val returnDate = item.return_date?.format(formatter) ?: "-"
+
+            binding.planReturnDate.text = "Planowana data zwrotu: $planReturnDate"
+            binding.takeDate.text = "Data wypożyczenia: $takeDate"
+            binding.returnDate.text = "Data zwrotu: $returnDate"
+
             binding.executePendingBindings()
         }
     }

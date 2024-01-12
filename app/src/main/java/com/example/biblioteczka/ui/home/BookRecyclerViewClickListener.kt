@@ -9,4 +9,6 @@ interface BookRecyclerViewClickListener {
     fun onShareButtonClick(position: Int)
     fun onBookItemClick(item: Book)
     fun onSiteClick(item: Book)
+
+    fun onExclamationClick(item: Book)
 }

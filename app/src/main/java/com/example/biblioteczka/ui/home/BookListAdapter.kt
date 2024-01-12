@@ -2,13 +2,18 @@ package com.example.biblioteczka.ui.home
 
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.BookItemBinding
 import com.example.biblioteczka.model.Book
+import com.example.biblioteczka.model.Rental
+import java.time.LocalDateTime
 
 class BookListAdapter : RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
 
@@ -75,16 +80,30 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
 
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(item: Book) {
             binding.book= item
+            item.rental?.let {
+               binding.isOverload = resolveOverloading(item.rental!!)
+            }
             binding.site.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     buttonClickListener?.onSiteClick(item)
                 }
             }
+
+            binding.overstep.setOnClickListener { buttonClickListener?.onExclamationClick(item) }
             binding.executePendingBindings()
         }
+        fun resolveOverloading(rental: Rental): Boolean {
+            val dateNow = LocalDateTime.now()
+//            return dateNow!!.isAfter(rental.plan_return_date!!)
+            return rental.plan_return_date!!.isAfter(dateNow!!)
+        }
+
     }
+
+
 
 }

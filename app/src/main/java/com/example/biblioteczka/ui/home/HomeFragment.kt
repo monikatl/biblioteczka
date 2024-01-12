@@ -1,7 +1,5 @@
 package com.example.biblioteczka.ui.home
 
-
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -25,6 +23,7 @@ import com.example.biblioteczka.MainActivity
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.FragmentHomeBinding
 import com.example.biblioteczka.model.Book
+import java.time.format.DateTimeFormatter
 
 
 class HomeFragment : Fragment(), BookRecyclerViewClickListener {
@@ -49,9 +48,11 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
         bookRecyclerView.adapter = adapter
         bookRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         homeViewModel.allBooks.observe(this.viewLifecycleOwner) { items ->
             items.let {
                 adapter.submitList(it)
+                homeViewModel.resolveRentals()
             }
         }
 
@@ -66,6 +67,7 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onHireButtonClick(position: Int) {
         homeViewModel.setCurrentBook(position)
         showHireDialog()
@@ -77,10 +79,14 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
     }
 
     private fun showReturnDialog() {
+        var book: Book? = null
+        homeViewModel.currentBook?.let {
+            book = it
+        }
         activity?.let {
             AlertDialog.Builder(it)
-                .setTitle("Czy chcesz zwrócić tytuł: ${homeViewModel.currentBook?.title}?")
-                .setMessage("Data zwrotu: }")
+                .setTitle("Zwrot")
+                .setMessage("Czy chcesz zwrócić tytuł: ${book?.title}?")
                 .setNegativeButton("Anuluj", null)
                 .setPositiveButton("Tak") {_, _ -> regive()}
                 .create()
@@ -88,6 +94,7 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun regive() {
         homeViewModel.regiveBook()
     }
@@ -101,7 +108,7 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
         activity?.let {
             AlertDialog.Builder(it)
                 .setTitle("Czy chcesz udostępnić ten tytuł do ponownego wypożyczenia: ${homeViewModel.currentBook?.title}?")
-                .setMessage("Potwierdź, że pozycja została sprawdzona.")
+                .setMessage("Potwierdź, że pozycja została dokładnie sprawdzona i może być ponownie udostępniona czytelnikom.")
                 .setNegativeButton("Anuluj", null)
                 .setPositiveButton("Tak") {_, _ -> share()}
                 .create()
@@ -147,7 +154,7 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
             }
 
             AlertDialog.Builder(it)
-                .setTitle("Czy na pewno chcesz wypożyczyć ten tytuł?")
+                .setTitle("Czy chcesz wypożyczyć tytuł?")
                 .setView(view)
                 .setMessage("${homeViewModel.currentBook?.author} - ${homeViewModel.currentBook?.title}")
                 .setNegativeButton("Anuluj", null)
@@ -158,10 +165,15 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun hire() {
-        homeViewModel.hireBook()
-        sendSms("Wypożyczyłeś tytuł: ${homeViewModel.currentBook!!.title}", "519489463")
+        val book = homeViewModel.currentBook!!
+        val rental = homeViewModel.hireBook()
+        rental?.let {
+            sendSms("Wypożyczyłeś tytuł: ${book.author} - ${book.title}.", "519489463")
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val planReturnDate = rental.plan_return_date?.format(formatter) ?: "-"
+            Toast.makeText(requireContext(), "Planowana data zwrotu: $planReturnDate", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun sendSms(message: String, phoneNumber: String) {
@@ -182,6 +194,10 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
     override fun onSiteClick(item: Book) {
         openWebsite(item.site)
+    }
+
+    override fun onExclamationClick(item: Book) {
+        Toast.makeText(requireContext(), "Dnia ${item.rental?.plan_return_date} upłynał termin zwrotu!", Toast.LENGTH_LONG).show()
     }
 
     private fun openWebsite(uriText: String) {

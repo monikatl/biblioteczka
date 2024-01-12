@@ -3,11 +3,9 @@ package com.example.biblioteczka.model
 import android.os.Build
 import android.os.Parcelable
 import androidx.annotation.RequiresApi
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
+import androidx.room.*
 import com.example.biblioteczka.converters.LocalDateTimeConverters
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "book_table")
@@ -24,6 +22,9 @@ data class Book(
     var state: State = State.FREE,
     var currentRental: Long? = null
 ) : Parcelable {
+
+    @Ignore
+    var rental: Rental? = null
 
     fun hire(rental: Long) {
         state = State.RENTAL

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -8,6 +9,9 @@
 
         <variable
             name="viewModel" type="com.example.biblioteczka.ui.home.HomeViewModel" />
+
+        <variable
+            name="isOverload" type="Boolean" />
 
         <import type="com.example.biblioteczka.model.State"/>
         <import type="android.view.View" />
@@ -57,22 +61,38 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/site"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="16dp"
-                android:drawableStart="@drawable/baseline_open_in_browser_24"
                 android:drawablePadding="8dp"
                 android:onClick="openWebsite"
-                android:text="@{book.site}"
-                android:textColor="#0000FF"
-                android:textSize="20sp"
+
+                android:src="@drawable/baseline_open_in_browser_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/author"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/author" />
+
+            <ImageView
+                android:id="@+id/overstep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/exclamation_bold"
+                android:visibility="@{isOverload ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/return_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{String.valueOf(book.rental.plan_return_date)}"
+                android:visibility="@{book.state == State.RENTAL ? View.VISIBLE : View.GONE }"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/returnButton" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"

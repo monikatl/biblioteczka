@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/personDetailsFragment"
         android:name="com.example.biblioteczka.ui.dashboard.PersonDetailsFragment"
-        android:label="fragment_person_details"
+        android:label="Szczegóły kontaktu"
         tools:layout="@layout/fragment_person_details" >
         <action
             android:id="@+id/action_personDetailsFragment_to_navigation_person"
