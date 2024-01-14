@@ -66,7 +66,7 @@ class HistoryFragment : Fragment() {
                     id: Long
                 ) {
                     historyViewModel.resolveSort(position)
-                    adapter.submitList(historyViewModel.allRentals.value!!)
+                    adapter.submitList(historyViewModel.allRentals.value ?: emptyList())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -95,7 +95,7 @@ class HistoryFragment : Fragment() {
                     id: Long
                 ) {
                     historyViewModel.resolveFilter(position)
-                    adapter.submitList(historyViewModel.allRentals.value!!)
+                    adapter.submitList(historyViewModel.allRentals.value ?: emptyList())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {

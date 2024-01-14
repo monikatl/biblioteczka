@@ -33,9 +33,6 @@ class HistoryViewModel(private val repository: RentalRepository) : ViewModel() {
             1 -> sortByOldest()
         }
     }
-
-
-
 }
 
 class HistoryViewModelFactory(private val repository: RentalRepository) : ViewModelProvider.Factory {
