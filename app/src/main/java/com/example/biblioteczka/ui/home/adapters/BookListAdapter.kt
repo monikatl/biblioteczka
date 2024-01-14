@@ -14,6 +14,7 @@ import com.example.biblioteczka.model.Book
 import com.example.biblioteczka.model.Rental
 import com.example.biblioteczka.ui.home.BookRecyclerViewClickListener
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class BookListAdapter : RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
 
@@ -92,6 +93,10 @@ class BookListAdapter : RecyclerView.Adapter<BookListAdapter.BookViewHolder>() {
                     buttonClickListener?.onSiteClick(item)
                 }
             }
+
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val planReturnDate = item.rental?.plan_return_date?.format(formatter) ?: ""
+            binding.returnDate.text = "$planReturnDate"
 
             binding.overstep.setOnClickListener { buttonClickListener?.onExclamationClick(item) }
             binding.executePendingBindings()

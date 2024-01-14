@@ -126,7 +126,10 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
+    private var contactLoaded = false
+
     private fun savePersons() {
+
         lifecycleScope.launch {
             try {
                 for (i in persons) {

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.DialogAddBookBinding
 import com.example.biblioteczka.model.Book
+import com.example.biblioteczka.model.State
 import com.example.biblioteczka.ui.home.HomeViewModel
 
 class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = null) : DialogFragment() {
@@ -36,12 +38,31 @@ class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = 
         bookBind(binding)
         binding.isNew = isNew
 
+        binding.delete.visibility = if(book?.state != State.RENTAL) View.VISIBLE else View.GONE
+        binding.delete.setOnClickListener {
+            if(isNew) dismiss()
+            book?.let {
+                showAcceptDeleteDialog(it)
+            }
+        }
+
         binding.save.setOnClickListener {
             createNewBook(binding)
             addBookToDatabase()
             dismiss()
         }
         return binding.root
+    }
+
+    private fun showAcceptDeleteDialog(book: Book) {
+        activity?.let {
+            AlertDialog.Builder(it)
+                .setTitle("Czy chcesz usunąć tytuł: ${book.title}?")
+                .setNegativeButton("Anuluj", null)
+                .setPositiveButton("Tak") {_, _ -> viewModel.deleteBook(book) { dismiss() } }
+                .create()
+                .show()
+        }
     }
 
     private fun bookBind(binding: DialogAddBookBinding) {

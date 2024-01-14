@@ -88,10 +88,10 @@
                 android:id="@+id/return_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(book.rental.plan_return_date)}"
-                android:visibility="@{book.state == State.RENTAL ? View.VISIBLE : View.GONE }"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/guideline"
+                android:visibility="@{book.state == State.RENTAL ? View.VISIBLE : View.GONE }"
+                app:layout_constraintEnd_toEndOf="@+id/returnButton"
+                app:layout_constraintStart_toEndOf="@+id/title"
                 app:layout_constraintTop_toBottomOf="@+id/returnButton" />
 
             <androidx.constraintlayout.widget.Guideline

@@ -13,4 +13,8 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun editBook(book: Book) {
         bookDao.update(book)
     }
+
+    suspend fun deleteBook(book: Book) {
+        bookDao.delete(book)
+    }
 }

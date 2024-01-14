@@ -76,10 +76,19 @@ class HomeViewModel(private val bookRepository: BookRepository,
     }
 
    fun resolveRentals() {
-        for (book in allBooks.value!!) {
-            if(book.currentRental != null) {
-               book.rental =  allRentals.value?.find { book.currentRental == it.rental_id }
-            }
+       allBooks.value?.let { books ->
+           for (book in books ) {
+               if(book.currentRental != null) {
+                   book.rental =  allRentals.value?.find { book.currentRental == it.rental_id }
+               }
+           }
+       }
+    }
+
+    fun deleteBook(book: Book, action: () -> Unit) {
+        viewModelScope.launch {
+            bookRepository.deleteBook(book)
+            action.invoke()
         }
     }
 }

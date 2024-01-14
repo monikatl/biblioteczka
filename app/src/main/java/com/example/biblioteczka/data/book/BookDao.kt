@@ -17,6 +17,9 @@ interface BookDao {
     @Update
     suspend fun update(book: Book)
 
+    @Delete
+    suspend fun delete(book: Book)
+
     @Query("DELETE FROM book_table")
     suspend fun deleteAll()
 

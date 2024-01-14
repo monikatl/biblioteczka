@@ -64,7 +64,7 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
         homeViewModel.allRentals.observe(this.viewLifecycleOwner) { items ->
             items.let {
-                //adapter.submitList(it)
+                homeViewModel.resolveRentals()
             }
         }
 

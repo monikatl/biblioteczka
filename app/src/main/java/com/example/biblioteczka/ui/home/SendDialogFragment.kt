@@ -14,11 +14,6 @@ import com.example.biblioteczka.model.Book
 class SendDialogFragment(private val viewModel: HomeViewModel): DialogFragment() {
 
 
-    init {
-
-
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

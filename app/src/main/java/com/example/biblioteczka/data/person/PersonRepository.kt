@@ -9,7 +9,6 @@ class PersonRepository(val personDao: PersonDao){
 
     suspend fun addPerson(person: Person) {
         personDao.insert(person)
-        println("Dodano$person")
     }
 
     suspend fun editPerson(person: Person) {
