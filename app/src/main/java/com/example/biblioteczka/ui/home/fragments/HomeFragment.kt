@@ -1,6 +1,8 @@
 package com.example.biblioteczka.ui.home.fragments
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +16,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +26,7 @@ import com.example.biblioteczka.MainActivity
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.FragmentHomeBinding
 import com.example.biblioteczka.model.Book
+import com.example.biblioteczka.model.Rental
 import com.example.biblioteczka.ui.home.BookRecyclerViewClickListener
 import com.example.biblioteczka.ui.home.HomeViewModel
 import com.example.biblioteczka.ui.home.HomeViewModelFactory
@@ -122,6 +126,17 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
         }
     }
 
+    private fun showRentalNotAllowedDialog() {
+        activity?.let {
+            AlertDialog.Builder(it)
+                .setTitle("Nie możesz wypożyczyć!")
+                .setMessage("Osoba ${homeViewModel.selectedPerson?.name} posiada maksymalną liczbę wypożyczeń. Najpierw zwróć jakiś tytuł.")
+                .setPositiveButton("Ok") {_, _ -> null}
+                .create()
+                .show()
+        }
+    }
+
     private fun share() {
         homeViewModel.shareBook()
     }
@@ -168,18 +183,26 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
                 .create()
                 .show()
         }
-
     }
 
     private fun hire() {
         val book = homeViewModel.currentBook!!
-        val rental = homeViewModel.hireBook()
+        val rental = homeViewModel.hireBook{ showRentalNotAllowedDialog() }
         rental?.let {
-            sendSms("Wypożyczyłeś tytuł: ${book.author} - ${book.title}.", "519489463")
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val planReturnDate = rental.plan_return_date?.format(formatter) ?: "-"
-            Toast.makeText(requireContext(), "Planowana data zwrotu: $planReturnDate", Toast.LENGTH_LONG).show()
+            if(hasSmsPermission())
+                sendSms("Wypożyczyłeś tytuł: ${book.author} - ${book.title}.", "519489463")
+            makePlanReturnData(it)
         }
+    }
+    private fun hasSmsPermission(): Boolean {
+        val smsPermissionStatus = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS)
+        return smsPermissionStatus == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun makePlanReturnData(rental: Rental) {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val planReturnDate = rental.plan_return_date?.format(formatter) ?: "-"
+        Toast.makeText(requireContext(), "Planowana data zwrotu: $planReturnDate", Toast.LENGTH_LONG).show()
     }
 
     private fun sendSms(message: String, phoneNumber: String) {
@@ -188,10 +211,16 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
     }
 
     override fun onShareButtonClick(position: Int) {
-        val currentPosition = homeViewModel.allBooks.value?.get(position)
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"))
-        intent.putExtra("sms_body", currentPosition.toString())
-        startActivity(intent)
+        if(hasSmsPermission()) {
+            val currentPosition = homeViewModel.allBooks.value?.get(position)
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"))
+            intent.putExtra("sms_body", currentPosition.toString())
+            startActivity(intent)
+        } else {
+            Toast.makeText(requireContext(), "Brak przyznanych uprawnień do wysyłania SMS!", Toast.LENGTH_LONG).show()
+            (activity as MainActivity).smsPermissions()
+        }
+
     }
 
     override fun onBookItemClick(item: Book) {

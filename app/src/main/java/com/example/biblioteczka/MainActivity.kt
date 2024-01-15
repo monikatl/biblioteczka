@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -25,6 +26,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.biblioteczka.databinding.ActivityMainBinding
 import com.example.biblioteczka.model.Person
+import com.example.biblioteczka.ui.dashboard.PersonFragment
 import com.example.biblioteczka.ui.home.SendDialogFragment
 import com.example.biblioteczka.ui.home.fragments.HomeFragment
 import kotlinx.coroutines.*
@@ -33,6 +35,7 @@ import kotlinx.coroutines.flow.collect
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
+import kotlin.system.exitProcess
 
 class MainActivity: AppCompatActivity() {
 
@@ -60,21 +63,10 @@ class MainActivity: AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
-        smsPermissions()
         readContactsPermission()
-        callPermissions()
-
-
-        var list: List<Person>? = null
-        runBlocking {
-            (application as BookcaseApplication).personRepository.allPersons.asLiveData().value?.let { list = it }
-        }
-        if(list == null)
-            loadContacts()
     }
 
-    private fun smsPermissions() {
+    fun smsPermissions() {
         if (ContextCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.SEND_SMS
@@ -114,22 +106,53 @@ class MainActivity: AppCompatActivity() {
         }
     }
 
-
-    private fun loadContacts() {
-        val contentResolver: ContentResolver = this.contentResolver
-        runBlocking {
-            val deffered = async { fetchContacts(contentResolver) }
-            val loadComplete = deffered.await()
-            if(loadComplete) {
-                savePersons()
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CONTACTS_PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    lifecycleScope.launch { loadContacts() }
+                    smsPermissions()
+                } else {
+                    showNecessityPermissionsDialog()
+                }
             }
+            MY_PERMISSIONS_REQUEST_SEND_SMS -> { callPermissions() }
         }
     }
 
-    private var contactLoaded = false
+    private fun showNecessityPermissionsDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Aby korzystać z aplikacji konieczne jest wyrażenie zgody na dostęp do kontaktów telefonu!")
+            .setMessage("Jeżeli nie wyrazisz zgody na dostęp do kontaktów aplikacja nie będzie mogła spełcić swojej funkcji i zostanie zamknięta!")
+            .setNegativeButton("Zamknij") { _, _ -> finish()}
+            .setPositiveButton("Przejdź do zgody") {_, _ -> readContactsPermission()}
+            .create()
+            .show()
+    }
+
+
+    private suspend fun loadContacts() {
+        val contentResolver: ContentResolver = this.contentResolver
+        withContext(Dispatchers.IO) {
+            val deffered = async { fetchContacts(contentResolver) }
+            val loadComplete = deffered.await()
+            if (loadComplete) {
+                savePersons()
+            }
+            withContext(Dispatchers.Main) {
+                onDataLoaded()
+            }
+        }
+
+    }
+
+    private fun onDataLoaded() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.navigation_person) as? PersonFragment
+        fragment?.onResume()
+    }
 
     private fun savePersons() {
-
         lifecycleScope.launch {
             try {
                 for (i in persons) {
