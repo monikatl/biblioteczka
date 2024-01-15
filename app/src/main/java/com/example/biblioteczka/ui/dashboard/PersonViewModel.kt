@@ -18,14 +18,7 @@ class PersonViewModel(
     val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    lateinit var contactList: LiveData<List<Person>>
-    init {
-        viewModelScope.launch {
-            _isLoading.value = true
-            val deff = async { personRepository.allPersons}
-            contactList = deff.await().asLiveData()
-        }
-    }
+    var contactList =  personRepository.allPersons.asLiveData()
 }
 
 class PersonViewModelFactory(
