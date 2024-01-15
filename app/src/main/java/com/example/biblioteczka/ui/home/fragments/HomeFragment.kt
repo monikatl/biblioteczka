@@ -72,6 +72,10 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
             }
         }
 
+        homeViewModel.allPersons.observe(this.viewLifecycleOwner) {
+
+        }
+
         binding.addBook.setOnClickListener { AddBookDialogFragment(homeViewModel).show(childFragmentManager, AddBookDialogFragment.TAG) }
 
         return binding.root
@@ -143,7 +147,7 @@ class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showHireDialog() {
-        val persons = (activity as MainActivity).persons
+        val persons = homeViewModel.allPersons.value ?: emptyList()
         val inflater = LayoutInflater.from(this.requireContext())
         val view = inflater.inflate(R.layout.dialog_spinner, null)
 
