@@ -123,10 +123,11 @@ class MainActivity: AppCompatActivity() {
 
     private fun showNecessityPermissionsDialog() {
         AlertDialog.Builder(this)
-            .setTitle("Aby korzystać z aplikacji konieczne jest wyrażenie zgody na dostęp do kontaktów telefonu!")
-            .setMessage("Jeżeli nie wyrazisz zgody na dostęp do kontaktów aplikacja nie będzie mogła spełcić swojej funkcji i zostanie zamknięta!")
+            .setTitle("Wymagana zgoda!")
+            .setMessage("Jeżeli nie wyrazisz zgody na DOSTĘP DO KONTAKTÓW aplikacja nie będzie mogła spełcić swojej funkcji i zostanie zamknięta!")
             .setNegativeButton("Zamknij") { _, _ -> finish()}
             .setPositiveButton("Przejdź do zgody") {_, _ -> readContactsPermission()}
+            .setCancelable(false)
             .create()
             .show()
     }
