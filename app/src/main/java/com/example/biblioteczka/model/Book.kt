@@ -40,5 +40,4 @@ data class Book(
     fun accept() {
         state = State.FREE
     }
-
 }

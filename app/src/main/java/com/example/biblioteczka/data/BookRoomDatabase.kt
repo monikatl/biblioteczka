@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Book::class, Rental::class, Person::class], version =28, exportSchema = false)
+@Database(entities = [Book::class, Rental::class, Person::class], version =32, exportSchema = false)
 @TypeConverters(Converters::class, ListConverters::class, BitmapConverters::class)
 abstract class BookRoomDatabase : RoomDatabase() {
 
@@ -80,7 +80,19 @@ abstract class BookRoomDatabase : RoomDatabase() {
             bookDao.insert(book)
             book = Book("34x6", "Wprowadzenie do algorytmów", "Thomas H. Cormen", 2018, "Trzeba przeczytać", "www.empik.com/wprowadzenie-do-algorytmow-cormen-thomas-h-leiserson-charles-e-rivest-ronald-stein-clifford,p1049607421,ksiazka-p?mpShopId=6482&cq_src=google_ads&cq_cmp=20574774934&cq_term=&cq_plac=&cq_net=x&cq_plt=gp&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOTvvnHN1GxknujPExGxMWiyxybPycfb2eHPv8bp7BDJ9niavWrvN4xoC6CYQAvD_BwE&gclsrc=aw.ds")
             bookDao.insert(book)
-            book = Book("34x7", "Johann Sebastian Bach", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            book = Book("31x7", "Johann", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("44x7", "Johann Sebastian", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("55x7", "J", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("66x7", "Jo", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("77x7", "Joh", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("88x7", "Johann Sebastian Bach", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
+            bookDao.insert(book)
+            book = Book("99x7", "Bach", "Wolff Cristoph", 2016, "Najlepsza biografia Bacha", "www.empik.com/johann-sebastian-bach-wolff-christoph,684356,ksiazka-p?mpShopId=4350&gad_source=1&gclid=CjwKCAiA44OtBhAOEiwAj4gpOaG2AAQ09ZpibGrsx1UiQrq5AFdN46Immqei6LDbZSvBLmPA9cp59hoC-TkQAvD_BwE&gclsrc=aw.ds")
             bookDao.insert(book)
 
         }

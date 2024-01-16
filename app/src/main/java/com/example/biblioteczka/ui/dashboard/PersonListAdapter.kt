@@ -47,10 +47,12 @@ class PersonListAdapter(private val action: (Person) -> Unit) : RecyclerView.Ada
     class ViewHolder(private val binding: PersonItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Person) {
             binding.person = item
-            item.photo?.let {
-                binding.contactPhoto.setImageBitmap(it)
-            }
+            if(item.photo != null)
+                binding.contactPhoto.setImageBitmap(item.photo)
+            else
+                binding.contactPhoto.setImageResource(R.drawable.baseline_person_24)
             binding.executePendingBindings()
         }
     }
 }
+

@@ -140,9 +140,9 @@ class MainActivity: AppCompatActivity() {
             val loadComplete = deffered.await()
             if (loadComplete) {
                 savePersons()
-            }
-            withContext(Dispatchers.Main) {
-                onDataLoaded()
+                withContext(Dispatchers.Main) {
+                    onDataLoaded()
+                }
             }
         }
 
@@ -184,7 +184,7 @@ class MainActivity: AppCompatActivity() {
                 val contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
                 val contactPhoneNumber = getContactPhoneNumber(contentResolver, contactId)
                 val photo = getContactPhoto(contentResolver,contactId)
-                
+
                 val contact =Person(contactName, contactPhoneNumber?:"",  photo)
                 contacts.add(contact)
             }

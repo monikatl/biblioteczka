@@ -4,7 +4,7 @@ import com.example.biblioteczka.model.Book
 import com.example.biblioteczka.model.Person
 import kotlinx.coroutines.flow.Flow
 
-class PersonRepository(val personDao: PersonDao){
+class PersonRepository(private val personDao: PersonDao){
     val allPersons: Flow<List<Person>> = personDao.getPersons()
 
     suspend fun addPerson(person: Person) {

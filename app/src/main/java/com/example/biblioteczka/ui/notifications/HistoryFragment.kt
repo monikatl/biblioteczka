@@ -43,7 +43,7 @@ class HistoryFragment : Fragment() {
 
         historyViewModel.allRentals.observe(this.viewLifecycleOwner) { items ->
             items.let {
-                adapter.submitList(it)
+                adapter.submitList(it ?: emptyList())
             }
         }
 

@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
-                android:text="@{person.number}"
+                android:text="@{String.valueOf(person.number)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name"/>
 
@@ -62,6 +62,7 @@
             app:layout_constraintTop_toBottomOf="@id/contact_details">
 
             <com.google.android.material.tabs.TabItem
+                android:id="@+id/rentals"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Wypożyczone" />

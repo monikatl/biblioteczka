@@ -60,13 +60,15 @@ class PersonDetailsFragment : Fragment() {
         }
 
 
+        //binding.rentals.text = "Wypożyczone ${viewModel.person.value?.rentalCounter.toString()}"
+
 
         binding.tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when(tab?.text) {
-                    "Wypożyczone" -> rentalsAdapter.submitList(viewModel.rentals.value!!)
-                    "Historia" -> rentalsAdapter.submitList(viewModel.history.value!!)
+                    "Wypożyczone" -> rentalsAdapter.submitList(viewModel.rentals.value ?: emptyList())
+                    "Historia" -> rentalsAdapter.submitList(viewModel.history.value ?: emptyList())
                 }
             }
 
