@@ -22,9 +22,7 @@ class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = 
     init {
         this.book = book
         this.book?.let { isNew = false }
-
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +46,12 @@ class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = 
 
         binding.save.setOnClickListener {
             createNewBook(binding)
-            addBookToDatabase()
+            if(isNew) {
+                addBookToDatabase()
+            }else {
+                editBook()
+            }
+
             dismiss()
         }
         return binding.root
@@ -78,6 +81,12 @@ class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = 
         }
     }
 
+    private fun editBook() {
+        book?.let {
+            viewModel.editBook(it)
+        }
+    }
+
     private fun createNewBook(binding: DialogAddBookBinding) {
         val position = binding.positionInput.text.toString()
         val title = binding.nameInput.text.toString()
@@ -87,6 +96,7 @@ class AddBookDialogFragment(private val viewModel: HomeViewModel, book: Book? = 
         val site = binding.siteInput.text.toString()
         book = Book(position, title, author, year, description, site)
     }
+
 
     private fun addBookToDatabase() {
         book?.let {

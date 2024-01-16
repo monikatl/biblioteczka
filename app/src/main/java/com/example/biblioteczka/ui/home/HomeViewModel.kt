@@ -22,6 +22,7 @@ class HomeViewModel(private val bookRepository: BookRepository,
 
     var allBooks: LiveData<List<Book>> = bookRepository.allBooks.asLiveData()
     var allRentals: LiveData<List<Rental>> = rentalRepository.allRentals.asLiveData()
+    var allPersons: LiveData<List<Person>> = personRepository.allPersons.asLiveData()
 
     var currentBook: Book? = null
     var selectedPerson: Person? = null
@@ -32,16 +33,30 @@ class HomeViewModel(private val bookRepository: BookRepository,
         }
     }
 
+    fun editBook(book: Book) {
+        viewModelScope.launch {
+            bookRepository.editBook(book)
+        }
+    }
+
     fun setCurrentBook(position: Int) {
         currentBook = allBooks.value?.get(position)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun hireBook(): Rental? {
+    fun hireBook(notAllowedRentalAction: () -> Unit): Rental? {
+        val book = currentBook!!
+        val person = selectedPerson!!
+
+        val rentalsCounter = allRentals.value?.filter { person.person_id == it.person.person_id && it.return_date == null }?.size
+        rentalsCounter?.let {
+            if(it >= Person.MAX_RENTALS) {
+                notAllowedRentalAction.invoke()
+                return null
+            }
+        }
         var newRental: Rental? = null
         viewModelScope.launch {
-            val book = currentBook!!
-            val person = selectedPerson!!
             newRental = Rental(book, person)
             newRental?.hire()
             book.rental = newRental

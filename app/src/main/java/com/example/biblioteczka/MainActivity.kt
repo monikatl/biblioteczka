@@ -184,9 +184,8 @@ class MainActivity: AppCompatActivity() {
                 val contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
                 val contactPhoneNumber = getContactPhoneNumber(contentResolver, contactId)
                 val photo = getContactPhoto(contentResolver,contactId)
-
-                val contact =Person(contactName, contactPhoneNumber?:"", photo)
-                println("Photo " + photo.toString())
+                
+                val contact =Person(contactName, contactPhoneNumber?:"",  photo)
                 contacts.add(contact)
             }
         }
@@ -225,23 +224,13 @@ class MainActivity: AppCompatActivity() {
             ContactsContract.Contacts.CONTENT_URI,
             contactId.toLong()
         )
-
-        val inputStream = ContactsContract.Contacts.openContactPhotoInputStream(
-            contentResolver,
-            photoUri!!
-        )
-
-        return inputStream?.use { // Use Kotlin's use function to automatically close the stream
-            uriToBitmap(photoUri)
-        }
-    }
-
-    private fun uriToBitmap(uri: Uri): Bitmap? {
         return try {
-            contentResolver.openInputStream(uri)?.use { inputStream ->
-                BitmapFactory.decodeStream(inputStream)
-            }
-        } catch (e: FileNotFoundException) {
+            val thumbnail = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, photoUri!!, true)
+            if (thumbnail != null)
+                BitmapFactory.decodeStream(thumbnail)
+            else
+               null
+        } catch (e: Exception) {
             e.printStackTrace()
             null
         }
