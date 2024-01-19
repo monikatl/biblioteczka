@@ -16,14 +16,12 @@ class HistoryViewModel(private val repository: RentalRepository) : ViewModel() {
     }
 
     private fun sortByYoungest() {
-        allRentals = repository.allRentals.asLiveData()
        val sortedList = allRentals.value?.sortedBy { rental -> rental.take_date}?.reversed()
         println("POSORT" + sortedList?.size.toString())
         allRentals = MutableLiveData(sortedList)
     }
 
     private fun sortByOldest() {
-        allRentals = repository.allRentals.asLiveData()
         val sortedList = allRentals.value?.sortedBy { rental -> rental.take_date }
         println("POSORT" + sortedList?.size.toString())
         allRentals = MutableLiveData(sortedList)

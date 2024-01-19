@@ -82,7 +82,7 @@ class PersonDetailsFragment : Fragment() {
         })
 
         binding.call.setOnClickListener {
-            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "513833744"))
+            val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:" + viewModel.person.value?.number))
             startActivity(intent)
         }
 

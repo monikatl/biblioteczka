@@ -47,63 +47,63 @@ class HistoryFragment : Fragment() {
             }
         }
 
-        val sortPredicates = listOf("Od najmłodszych", "Od najstarszych")
-
-        activity?.let {
-            val arrayAdapter = ArrayAdapter(
-                it,
-                android.R.layout.simple_spinner_item,
-                sortPredicates
-            )
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.sort.adapter = arrayAdapter
-
-            binding.sort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    historyViewModel.resolveSort(position)
-                    adapter.submitList(historyViewModel.allRentals.value ?: emptyList())
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Toast.makeText(requireContext(), "Musisz wybrać kto!!!", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
+//        val sortPredicates = listOf("Od najmłodszych", "Od najstarszych")
+//
+//        activity?.let {
+//            val arrayAdapter = ArrayAdapter(
+//                it,
+//                android.R.layout.simple_spinner_item,
+//                sortPredicates
+//            )
+//            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            binding.sort.adapter = arrayAdapter
+//
+//            binding.sort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    historyViewModel.resolveSort(position)
+//                    adapter.submitList(historyViewModel.allRentals.value ?: emptyList())
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    Toast.makeText(requireContext(), "Musisz wybrać kto!!!", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//            }
+//        }
 
         val filterPredicates = listOf("Wszystkie", "Przekroczony termin", "Nie zwrócone")
 
-        activity?.let {
-            val arrayAdapter = ArrayAdapter(
-                it,
-                android.R.layout.simple_spinner_item,
-                filterPredicates
-            )
-            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.filter.adapter = arrayAdapter
-
-            binding.filter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    historyViewModel.resolveFilter(position)
-                    adapter.submitList(historyViewModel.allRentals.value ?: emptyList())
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Toast.makeText(requireContext(), "Musisz wybrać kto!!!", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            }
-        }
+//        activity?.let {
+//            val arrayAdapter = ArrayAdapter(
+//                it,
+//                android.R.layout.simple_spinner_item,
+//                filterPredicates
+//            )
+//            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            binding.filter.adapter = arrayAdapter
+//
+//            binding.filter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(
+//                    parent: AdapterView<*>?,
+//                    view: View?,
+//                    position: Int,
+//                    id: Long
+//                ) {
+//                    historyViewModel.resolveFilter(position)
+//                    adapter.submitList(historyViewModel.allRentals.value ?: emptyList())
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    Toast.makeText(requireContext(), "Musisz wybrać kto!!!", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//            }
+//        }
 
 
 
