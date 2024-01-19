@@ -9,16 +9,18 @@ import com.example.biblioteczka.data.rental.RentalRepository
 import com.example.biblioteczka.model.Book
 import com.example.biblioteczka.model.Person
 import com.example.biblioteczka.model.Rental
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-
-class HomeViewModel(private val bookRepository: BookRepository,
-                    private val rentalRepository: RentalRepository,
-                    private val personRepository: PersonRepository) : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val bookRepository: BookRepository,
+                                        private val rentalRepository: RentalRepository,
+                                        private val personRepository: PersonRepository) : ViewModel() {
 
     var allBooks: LiveData<List<Book>> = bookRepository.allBooks.asLiveData()
     var allRentals: LiveData<List<Rental>> = rentalRepository.allRentals.asLiveData()

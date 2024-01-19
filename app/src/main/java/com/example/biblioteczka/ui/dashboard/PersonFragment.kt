@@ -16,13 +16,13 @@ import com.example.biblioteczka.BookcaseApplication
 import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.FragmentPersonBinding
 import com.example.biblioteczka.model.Person
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PersonFragment : Fragment() {
 
     private lateinit var binding: FragmentPersonBinding
-    private val personViewModel: PersonViewModel by viewModels {
-        PersonViewModelFactory((activity?.application as BookcaseApplication).personRepository)
-    }
+    private val personViewModel: PersonViewModel by viewModels ()
 
     override fun onCreateView(
         inflater: LayoutInflater,

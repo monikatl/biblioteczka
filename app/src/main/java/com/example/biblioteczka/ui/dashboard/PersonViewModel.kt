@@ -1,17 +1,13 @@
 package com.example.biblioteczka.ui.dashboard
 
-import android.annotation.SuppressLint
-import android.content.ContentResolver
-import android.provider.ContactsContract
 import androidx.lifecycle.*
-import com.example.biblioteczka.data.book.BookRepository
 import com.example.biblioteczka.data.person.PersonRepository
-import com.example.biblioteczka.data.rental.RentalRepository
-import com.example.biblioteczka.model.Person
-import com.example.biblioteczka.ui.home.HomeViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class PersonViewModel(
+@HiltViewModel
+class PersonViewModel @Inject constructor(
     private val personRepository: PersonRepository
 ) : ViewModel() {
 
@@ -19,17 +15,4 @@ class PersonViewModel(
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     var contactList =  personRepository.allPersons.asLiveData()
-}
-
-class PersonViewModelFactory(
-    private val personRepository: PersonRepository
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PersonViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return PersonViewModel(personRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
 }

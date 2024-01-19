@@ -1,4 +1,4 @@
-package com.example.biblioteczka.ui.dashboard
+package com.example.biblioteczka.converters
 
 import android.graphics.Bitmap
 

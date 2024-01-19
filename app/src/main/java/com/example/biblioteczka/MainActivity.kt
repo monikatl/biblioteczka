@@ -24,20 +24,27 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.biblioteczka.data.person.PersonRepository
 import com.example.biblioteczka.databinding.ActivityMainBinding
 import com.example.biblioteczka.model.Person
 import com.example.biblioteczka.ui.dashboard.PersonFragment
 import com.example.biblioteczka.ui.home.SendDialogFragment
 import com.example.biblioteczka.ui.home.fragments.HomeFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
+import javax.inject.Inject
 import kotlin.system.exitProcess
 
+@AndroidEntryPoint
 class MainActivity: AppCompatActivity() {
+
+    @Inject
+    lateinit var personRepository: PersonRepository
 
     private lateinit var binding: ActivityMainBinding
     private val CONTACTS_PERMISSION_CODE = 123
@@ -157,7 +164,7 @@ class MainActivity: AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 for (i in persons) {
-                    (application as BookcaseApplication).personRepository.addPerson(i)
+                    personRepository.addPerson(i)
                 }
             } catch (e: Exception) {
                 Log.e("SavePersons", "Error saving persons: ${e.message}", e)

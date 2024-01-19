@@ -4,9 +4,12 @@ import androidx.lifecycle.*
 import com.example.biblioteczka.data.rental.RentalRepository
 import com.example.biblioteczka.model.Person
 import com.example.biblioteczka.model.Rental
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class PersonDetailsViewModel(private val rentalRepository: RentalRepository) : ViewModel() {
+@HiltViewModel
+class PersonDetailsViewModel @Inject constructor(private val rentalRepository: RentalRepository) : ViewModel() {
     private val _person = MutableLiveData<Person>()
     val person: LiveData<Person> get() = _person
 
@@ -26,18 +29,5 @@ class PersonDetailsViewModel(private val rentalRepository: RentalRepository) : V
         person?.let {
             _person.value = person!!
         }
-    }
-}
-
-class PersonDetailsViewModelFactory(
-    private val rentalRepository: RentalRepository
-) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PersonDetailsViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return PersonDetailsViewModel(rentalRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

@@ -3,8 +3,11 @@ package com.example.biblioteczka.ui.notifications
 import androidx.lifecycle.*
 import com.example.biblioteczka.data.rental.RentalRepository
 import com.example.biblioteczka.model.Rental
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HistoryViewModel(private val repository: RentalRepository) : ViewModel() {
+@HiltViewModel
+class HistoryViewModel @Inject constructor(private val repository: RentalRepository) : ViewModel() {
 
     var allRentals: LiveData<List<Rental>> = repository.allRentals.asLiveData()
 
@@ -32,15 +35,5 @@ class HistoryViewModel(private val repository: RentalRepository) : ViewModel() {
             0 -> {}
             1 -> sortByOldest()
         }
-    }
-}
-
-class HistoryViewModelFactory(private val repository: RentalRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HistoryViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return HistoryViewModel(repository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

@@ -32,17 +32,14 @@ import com.example.biblioteczka.ui.home.HomeViewModel
 import com.example.biblioteczka.ui.home.HomeViewModelFactory
 import com.example.biblioteczka.ui.home.SendDialogFragment
 import com.example.biblioteczka.ui.home.adapters.BookListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.format.DateTimeFormatter
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(), BookRecyclerViewClickListener {
 
     private lateinit var binding: FragmentHomeBinding
-    private val homeViewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory((activity?.application as BookcaseApplication).bookRepository,
-            (activity?.application as BookcaseApplication).rentalRepository,
-        (activity?.application as BookcaseApplication).personRepository)
-    }
+    private val homeViewModel: HomeViewModel by viewModels ()
 
     override fun onCreateView(
         inflater: LayoutInflater,

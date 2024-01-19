@@ -3,8 +3,9 @@ package com.example.biblioteczka.data.rental
 import androidx.lifecycle.asLiveData
 import com.example.biblioteczka.model.Rental
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class RentalRepository (private val rentalDao: RentalDao){
+class RentalRepository @Inject constructor(private val rentalDao: RentalDao){
     val allRentals: Flow<List<Rental>> = rentalDao.getRentals()
 
     suspend fun addRental(rental: Rental): Long {

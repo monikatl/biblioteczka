@@ -20,7 +20,9 @@ import com.example.biblioteczka.databinding.FragmentHistoryBinding
 import com.example.biblioteczka.ui.dashboard.PersonListAdapter
 import com.example.biblioteczka.ui.home.HomeViewModel
 import com.example.biblioteczka.ui.home.HomeViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HistoryFragment : Fragment() {
 
     private lateinit var binding: FragmentHistoryBinding
@@ -31,9 +33,7 @@ class HistoryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val historyViewModel: HistoryViewModel by viewModels {
-            HistoryViewModelFactory((activity?.application as BookcaseApplication).rentalRepository)
-        }
+        val historyViewModel: HistoryViewModel by viewModels ()
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_history, container, false)
 

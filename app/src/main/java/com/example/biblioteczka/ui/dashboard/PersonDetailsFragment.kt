@@ -15,17 +15,17 @@ import com.example.biblioteczka.R
 import com.example.biblioteczka.databinding.FragmentPersonDetailsBinding
 import com.example.biblioteczka.ui.notifications.RentalListAdapter
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class PersonDetailsFragment : Fragment() {
 
     companion object {
         fun newInstance() = PersonDetailsFragment()
     }
 
-    val viewModel: PersonDetailsViewModel by viewModels {
-        PersonDetailsViewModelFactory((activity?.application as BookcaseApplication).rentalRepository)
-    }
+    val viewModel: PersonDetailsViewModel by viewModels ()
     private lateinit var binding: FragmentPersonDetailsBinding
 
 
